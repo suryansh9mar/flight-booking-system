@@ -9,26 +9,30 @@ class crudRepository {
     try {
       return await this.model.create(data);
     } catch (error) {
-        logger.error("something went wrong in repository create", error);
-        throw error;
+      logger.error("something went wrong in repository create", error);
+      throw error;
     }
   }
 
   async destroy(id) {
     try {
-      return await this.model.destroy({ where: { id } });
+      const response = await this.model.destroy({ where: { id } });
+      if (!response) throw new Error("not found");
+      return response;
     } catch (error) {
-        logger.error("something went wrong in repository destroy", error);
-        throw error;
+      logger.error("something went wrong in repository destroy", error);
+      throw error;
     }
   }
 
   async get(id) {
     try {
-      return await this.model.findByPk(id);
+      const response = await this.model.findByPk(id);
+      if (!response) throw new Error("not found");
+      return response;
     } catch (error) {
-        logger.error("something went wrong in repository get", error);
-        throw error;
+      logger.error("something went wrong in repository get", error);
+      throw error;
     }
   }
 
@@ -36,17 +40,19 @@ class crudRepository {
     try {
       return await this.model.findAll();
     } catch (error) {
-        logger.error("something went wrong in repository getAll", error);
-        throw error;
+      logger.error("something went wrong in repository getAll", error);
+      throw error;
     }
   }
 
   async update(id, data) {
     try {
-      return await this.model.update(data, { where: { id } });
+      const resposne = await this.model.update(data, { where: { id } });
+      if (resposne[0]===0) throw new Error("not found");
+      return resposne;
     } catch (error) {
-        logger.error("something went wrong in repository update", error);
-        throw error;
+      logger.error("something went wrong in repository update", error);
+      throw error;
     }
   }
 }

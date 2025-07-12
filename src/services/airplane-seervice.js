@@ -18,7 +18,33 @@ async function getAllAirplanes() {
   }
 }
 
+async function getAirplane(id) {
+  try {
+    return await airplaneRepository.get(id);
+  } catch (error) {
+    throw new Error("not found");
+  }
+}
+
+async function deleteAirplane(id) {
+  try {
+    return await airplaneRepository.destroy(id);
+  } catch (error) {
+    throw error;
+  }
+}
+async function updateAirplane(id, data) {
+  try {
+    return await airplaneRepository.update(id, data);
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createAirplane,
-  getAllAirplanes
+  getAllAirplanes,
+  getAirplane,
+  deleteAirplane,
+  updateAirplane
 };
